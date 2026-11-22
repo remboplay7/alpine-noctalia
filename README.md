@@ -56,7 +56,13 @@ abuild нужна пара RSA ключей, генерируем:
 
 Подключаем локальный репозиторий подобно подключению удалённых репо, первой строкой в `/etc/apk/repositories` пишем `~/.local/share/abuild/alpine-noctalia`
 
+Ссылки на github репозитории представленных пакетов.
 
+[Noctalia Shell](https://github.com/noctalia-dev/noctalia)
+
+[Umbriel](https://github.com/noctalia-dev/umbriel)
+
+[xdg-desktop-portal-umbriel](https://github.com/noctalia-dev/xdg-desktop-portal-umbriel)
 
 
 
