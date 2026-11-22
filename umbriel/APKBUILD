@@ -1,0 +1,62 @@
+# Contributor: Your Name <your@email.com>
+# Maintainer: Your Name <your@email.com>
+pkgname=umbriel
+_commit="eb9f426af0ba08322528607541043e330d01c43b"
+pkgver=0_git20261101
+pkgrel=0
+pkgdesc="Wayland compositor based on wlroots and UmbrielFX"
+url="https://github.com/noctalia-dev/umbriel"
+arch="all"
+license="MIT"
+depends="
+	xkeyboard-config
+"
+makedepends="
+	g++
+	git
+	just
+	libxkbcommon-dev>=1.10.0
+	libxcb-dev
+	meson
+	ninja
+	pkgconf
+	wayland-dev
+	wayland-protocols
+	wlroots0.20-dev
+	libei-dev
+	tomlplusplus-dev
+	cairo-dev
+	pango-dev
+"
+source="$pkgname-$_commit.tar.gz::$url/archive/$_commit.tar.gz"
+builddir="$srcdir/$pkgname-$_commit"
+
+pkgver() {
+	if [ -d "$builddir/.git" ]; then
+		cd "$builddir"
+		printf "0_git%s.%s" "$(date -u +%Y%m%m)" "$(git rev-parse --short HEAD)"
+	else
+		printf "0_git20261101.%s" "${_commit:0:7}"
+	fi
+}
+
+build() {
+	abuild-meson \
+		-Djemalloc=disabled \
+		-Dtests=disabled \
+		-Dharness=disabled \
+		. build
+	meson compile -C build
+}
+
+check() {
+	:
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+sha512sums="
+0627bec24a92cba0d14054f7c7008e31bf21f33174f607928617eb688d205dc74248f5f89eb24bdfb1c76ea70808d214adfc27ecf5f79fecf0a193bedbcdb159  umbriel-eb9f426af0ba08322528607541043e330d01c43b.tar.gz
+"
