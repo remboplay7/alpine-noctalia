@@ -4,7 +4,7 @@
 ## Для казуалов
 Подключаем репозиторий дабы просто установить то что получилось сбилдить у меня.
 
-Первой строкой в файле `/etc/apk/repositories` вставляем `https://raw.githubusercontent.com/remboplay7/alpine-hyprland-noctalia/main`  (либо клонируем гит репо себе и подключаем как локальный репозиторий)
+Первой строкой в файле `/etc/apk/repositories` вставляем `https://raw.githubusercontent.com/remboplay7/alpine-noctalia/main`  (либо клонируем гит репо себе и подключаем как локальный репозиторий)
 
 Обновляем репо `doas apk update --allow-untrusted`
 
