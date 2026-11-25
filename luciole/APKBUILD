@@ -1,0 +1,54 @@
+# Contributor: remboplay7 <your@email.com>
+# Maintainer: remboplay7 <your@email.com>
+pkgname=luciole
+_commit="ef46ab50862309367278cf2bf33d78e1ee607a04"
+pkgver=0_git20261125
+pkgrel=0
+pkgdesc="Luciole utility from Noctalia ecosystem"
+url="https://github.com/noctalia-dev/luciole"
+arch="all"
+license="MIT"
+makedepends="
+	meson
+	ninja
+	pkgconf
+	wayland-dev
+	wayland-protocols
+	curl-dev
+	gdk-pixbuf-dev
+	tomlplusplus-dev
+	pango-dev
+	libarchive-dev
+	acl-dev
+	librsvg-dev
+"
+
+source="$pkgname-$_commit.tar.gz::$url/archive/$_commit.tar.gz
+	stb-master.tar.gz::https://github.com/nothings/stb/archive/refs/heads/master.tar.gz"
+builddir="$srcdir/$pkgname-$_commit"
+options="!check"
+
+prepare() {
+	default_prepare
+
+	mkdir -p "$builddir"/include/stb
+	cp "$srcdir"/stb-master/*.h "$builddir"/include/stb/
+	cp "$srcdir"/stb-master/*.h "$builddir"/include/
+}
+
+build() {
+	abuild-meson \
+		-Dc_args="-I$builddir/include -I$builddir/include/stb" \
+		-Dcpp_args="-I$builddir/include -I$builddir/include/stb" \
+		. build
+	meson compile -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+sha512sums="
+89be22467e79bec813940928b1e07d95920748be8c4634ca8f862c3910f63f0fc9482200a6239c3cb073a324bdec8bc0fc3c9dd6f074bf77fdb3f3ee420aa231  luciole-ef46ab50862309367278cf2bf33d78e1ee607a04.tar.gz
+f26ecc04dda9121ffdec9f73d7a5838478c6a1ea91af77441493a1b0e671c7f23234fc1316714e6c9a1867d1ad204d65fb5efa1cab66f9e4ffa4fed7d12dfda3  stb-master.tar.gz
+"
